@@ -7,7 +7,7 @@ reg_data_dir="./train/reg"                           # directory for regularizat
 
 # Train related params | 训练相关参数
 resolution="768"  # image resolution w,h. 图片分辨率，宽,高。支持非正方形，但必须是 64 倍数。
-batch_size=5          # batch size
+batch_size=3          # batch size
 max_train_epoches=10  # max train epoches | 最大训练 epoch
 save_every_n_epochs=1 # save every n epochs | 每 N 个 epoch 保存一次
 
@@ -21,15 +21,15 @@ noise_offset=0 # noise offset | 在训练中添加噪声偏移来改良生成非
 keep_tokens=1  # keep heading N tokens when shuffling caption tokens | 在随机打乱 tokens 时，保留前 N 个不变。
 
 # Learning rate | 学习率
-lr="2e-5"
+lr="3.33333333e-5"
 unet_lr=$lr
-text_encoder_lr="1e-5"
+text_encoder_lr="1.66666666e-5"
 lr_scheduler="cosine_with_restarts" # "linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup"
 lr_warmup_steps=0                   # warmup steps | 仅在 lr_scheduler 为 constant_with_warmup 时需要填写这个值
-lr_restart_cycles=1                 # cosine_with_restarts restart cycles | 余弦退火重启次数，仅在 lr_scheduler 为 cosine_with_restarts 时起效。
+lr_restart_cycles=2                 # cosine_with_restarts restart cycles | 余弦退火重启次数，仅在 lr_scheduler 为 cosine_with_restarts 时起效。
 
 # Output settings | 输出设置
-output_name="maouii_f_v2_bs1"           # output model name | 模型保存名称
+output_name="maouii_f_v3_bs3_basil"           # output model name | 模型保存名称
 save_model_as="safetensors" # model save ext | 模型保存格式 ckpt, pt, safetensors
 
 # 其他设置
