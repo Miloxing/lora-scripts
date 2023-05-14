@@ -3,7 +3,7 @@
 # Train data path | 设置训练用模型、图片
 pretrained_model="./sd-models/model.safetensors" # base model path | 底模路径
 train_data_dir="./train/aki"              # train dataset path | 训练数据集路径
-reg_data_dir="./train/reg"                           # directory for regularization images | 正则化数据集路径，默认不使用正则化图像。
+reg_data_dir=""                           #./train/reg directory for regularization images | 正则化数据集路径，默认不使用正则化图像。
 
 # Train related params | 训练相关参数
 resolution="768"  # image resolution w,h. 图片分辨率，宽,高。支持非正方形，但必须是 64 倍数。
@@ -80,7 +80,7 @@ accelerate launch --num_cpu_threads_per_process=8 "./sd-scripts/train_network.py
   --enable_bucket \
   --pretrained_model_name_or_path=$pretrained_model \
   --train_data_dir=$train_data_dir \
-  --output_dir="/content/drive/Shareddrives/milo01_h/sd/stable-diffusion-webui/extensions/sd-webui-additional-networks/models/lora" \
+  --output_dir="/content/drive/Shareddrives/milo01_h/sd/sd-webui/extensions/sd-webui-additional-networks/models/lora" \
   --logging_dir="./logs" \
   --resolution=$resolution \
   --network_module=$network_module \
@@ -108,5 +108,4 @@ accelerate launch --num_cpu_threads_per_process=8 "./sd-scripts/train_network.py
   --min_bucket_reso=$min_bucket_reso \
   --max_bucket_reso=$max_bucket_reso \
   --keep_tokens=$keep_tokens \
-  --reg_data_dir="./train/reg" \
   --xformers --shuffle_caption ${extArgs[@]}
