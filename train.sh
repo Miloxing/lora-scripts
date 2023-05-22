@@ -8,11 +8,11 @@ reg_data_dir=""                           #./train/reg directory for regularizat
 # Train related params | 训练相关参数
 resolution="768"  # image resolution w,h. 图片分辨率，宽,高。支持非正方形，但必须是 64 倍数。
 batch_size=3          # batch size
-max_train_epoches=10  # max train epoches | 最大训练 epoch
+max_train_epoches=15  # max train epoches | 最大训练 epoch
 save_every_n_epochs=1 # save every n epochs | 每 N 个 epoch 保存一次
 
 network_dim=64   # network dim | 常用 4~128，不是越大越好
-network_alpha=64 # network alpha | 常用与 network_dim 相同的值或者采用较小的值，如 network_dim的一半 防止下溢。默认值为 1，使用较小的 alpha 需要提升学习率。
+network_alpha=32 # network alpha | 常用与 network_dim 相同的值或者采用较小的值，如 network_dim的一半 防止下溢。默认值为 1，使用较小的 alpha 需要提升学习率。
 
 train_unet_only=0         # train U-Net only | 仅训练 U-Net，开启这个会牺牲效果大幅减少显存使用。6G显存可以开启
 train_text_encoder_only=0 # train Text Encoder only | 仅训练 文本编码器
@@ -21,15 +21,15 @@ noise_offset=0 # noise offset | 在训练中添加噪声偏移来改良生成非
 keep_tokens=1  # keep heading N tokens when shuffling caption tokens | 在随机打乱 tokens 时，保留前 N 个不变。
 
 # Learning rate | 学习率
-lr="3.33333333e-5"
+lr="7e-5"
 unet_lr=$lr
-text_encoder_lr="1.66666666e-5"
+text_encoder_lr="8e-6"
 lr_scheduler="cosine_with_restarts" # "linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup"
 lr_warmup_steps=0                   # warmup steps | 仅在 lr_scheduler 为 constant_with_warmup 时需要填写这个值
-lr_restart_cycles=2                 # cosine_with_restarts restart cycles | 余弦退火重启次数，仅在 lr_scheduler 为 cosine_with_restarts 时起效。
+lr_restart_cycles=3                 # cosine_with_restarts restart cycles | 余弦退火重启次数，仅在 lr_scheduler 为 cosine_with_restarts 时起效。
 
 # Output settings | 输出设置
-output_name="maouii_f_v3_bs3_basil"           # output model name | 模型保存名称
+output_name="hll_v3_majjc"           # output model name | 模型保存名称
 save_model_as="safetensors" # model save ext | 模型保存格式 ckpt, pt, safetensors
 
 # 其他设置
@@ -40,8 +40,8 @@ persistent_data_loader_workers=1 # persistent dataloader workers | 容易爆内�
 clip_skip=1                      # clip skip | 玄学 一般用 2
 
 # 优化器设置
-use_8bit_adam=1 # use 8bit adam optimizer | 使用 8bit adam 优化器节省显存，默认启用。部分 10 系老显卡无法使用，修改为 0 禁用。
-use_lion=0      # use lion optimizer | 使用 Lion 优化器
+use_8bit_adam=0 # use 8bit adam optimizer | 使用 8bit adam 优化器节省显存，默认启用。部分 10 系老显卡无法使用，修改为 0 禁用。
+use_lion=1      # use lion optimizer | 使用 Lion 优化器
 use_dadaptation=0 # 使用dadaptation预训练获得峰值学习率
 # LoCon 训练设置
 enable_locon_train=0 # enable LoCon train | 启用 LoCon 训练 启用后 network_dim 和 network_alpha 应当选择较小的值，比如 2~16
