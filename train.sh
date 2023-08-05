@@ -24,20 +24,20 @@ train_unet_only=0         # train U-Net only | 仅训练 U-Net，开启这个会
 train_text_encoder_only=0 # train Text Encoder only | 仅训练 文本编码器
 stop_text_encoder_training=0 # stop text encoder training | 在第N步时停止训练文本编码器
 
-noise_offset="0"  # noise offset | 在训练中添加噪声偏移来改良生成非常暗或者非常亮的图像，如果启用，推荐参数为0.1
+noise_offset="0.1"  # noise offset | 在训练中添加噪声偏移来改良生成非常暗或者非常亮的图像，如果启用，推荐参数为0.1
 keep_tokens=1   # keep heading N tokens when shuffling caption tokens | 在随机打乱 tokens 时，保留前 N 个不变。
-min_snr_gamma=0 # minimum signal-to-noise ratio (SNR) value for gamma-ray | 伽马射线事件的最小信噪比（SNR）值  默认为 0
+min_snr_gamma=5 # minimum signal-to-noise ratio (SNR) value for gamma-ray | 伽马射线事件的最小信噪比（SNR）值  默认为 0
 
 # Learning rate | 学习率
-lr="7e-5"
-unet_lr="7e-5"
-text_encoder_lr="8e-6"
-lr_scheduler="cosine_with_restarts" # "linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup", "adafactor"
+lr="1"
+unet_lr="1"
+text_encoder_lr="1"
+lr_scheduler="constant" # "linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup", "adafactor"
 lr_warmup_steps=0                   # warmup steps | 学习率预热步数，lr_scheduler 为 constant 或 adafactor 时该值需要设为0。
 lr_restart_cycles=3                 # cosine_with_restarts restart cycles | 余弦退火重启次数，仅在 lr_scheduler 为 cosine_with_restarts 时起效。
 
 # Output settings | 输出设置
-output_name="hll_v5_brealv5_cyc3"           # output model name | 模型保存名称
+output_name="maouii_sd1.5_v1"           # output model name | 模型保存名称
 save_model_as="safetensors" # model save ext | 模型保存格式 ckpt, pt, safetensors
 
 # Resume training state | 恢复训练设置
@@ -45,13 +45,13 @@ save_state=0 # save state | 保存训练状态 名称类似于 <output_name>-???
 resume=""    # resume from state | 从某个状态文件夹中恢复训练 需配合上方参数同时使用 由于规范文件限制 epoch 数和全局步数不会保存 即使恢复时它们也从 1 开始 与 network_weights 的具体实现操作并不一致
 
 # 其他设置
-min_bucket_reso=256              # arb min resolution | arb 最小分辨率
+min_bucket_reso=320              # arb min resolution | arb 最小分辨率
 max_bucket_reso=768             # arb max resolution | arb 最大分辨率
 persistent_data_loader_workers=1 # persistent dataloader workers | 容易爆内存，保留加载训练集的worker，减少每个 epoch 之间的停顿
 clip_skip=1                      # clip skip | 玄学 一般用 2
 
 # 优化器设置
-optimizer_type="Lion" # Optimizer type | 优化器类型 默认为 AdamW8bit，可选：AdamW AdamW8bit Lion SGDNesterov SGDNesterov8bit DAdaptation AdaFactor
+optimizer_type="Prodigy" # Optimizer type | 优化器类型 默认为 AdamW8bit，可选：AdamW AdamW8bit Lion SGDNesterov SGDNesterov8bit DAdaptation AdaFactor Prodigy
 
 # LyCORIS 训练设置
 algo="lora"  # LyCORIS network algo | LyCORIS 网络算法 可选 lora、loha、lokr、ia3、dylora。lora即为locon
@@ -91,6 +91,8 @@ if [[ $reg_data_dir ]]; then extArgs+=("--reg_data_dir $reg_data_dir"); fi
 if [[ $optimizer_type ]]; then extArgs+=("--optimizer_type $optimizer_type"); fi
 
 if [[ $optimizer_type == "DAdaptation" ]]; then extArgs+=("--optimizer_args decouple=True"); fi
+
+if [[ $optimizer_type == "Prodigy" ]]; then extArgs+=("--optimizer_args decouple=True weight_decay=0.01 d_coef=2 use_bias_correction=True safeguard_warmup=True"); fi
 
 if [[ $save_state == 1 ]]; then extArgs+=("--save_state"); fi
 
@@ -141,7 +143,7 @@ python -m accelerate.commands.launch ${launchArgs[@]} --num_cpu_threads_per_proc
   --save_every_n_epochs=$save_every_n_epochs \
   --mixed_precision="fp16" \
   --save_precision="fp16" \
-  --seed="3247" \
+  --seed="420" \
   --cache_latents \
   --prior_loss_weight=1 \
   --max_token_length=225 \
@@ -150,4 +152,5 @@ python -m accelerate.commands.launch ${launchArgs[@]} --num_cpu_threads_per_proc
   --min_bucket_reso=$min_bucket_reso \
   --max_bucket_reso=$max_bucket_reso \
   --keep_tokens=$keep_tokens \
+  --flip-aug \
   --xformers --shuffle_caption ${extArgs[@]}
