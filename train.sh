@@ -17,7 +17,7 @@ network_alpha=64               # network alpha | 常用与 network_dim 相同的
 # Train related params | 训练相关参数
 resolution="768"  # image resolution w,h. 图片分辨率，宽,高。支持非正方形，但必须是 64 倍数。
 batch_size=3          # batch size
-max_train_epoches=15  # max train epoches | 最大训练 epoch
+max_train_epoches=18  # max train epoches | 最大训练 epoch
 save_every_n_epochs=1 # save every n epochs | 每 N 个 epoch 保存一次
 
 train_unet_only=0         # train U-Net only | 仅训练 U-Net，开启这个会牺牲效果大幅减少显存使用。6G显存可以开启
@@ -37,7 +37,7 @@ lr_warmup_steps=0                   # warmup steps | 学习率预热步数，lr_
 lr_restart_cycles=3                 # cosine_with_restarts restart cycles | 余弦退火重启次数，仅在 lr_scheduler 为 cosine_with_restarts 时起效。
 
 # Output settings | 输出设置
-output_name="maouii_sd1.5_v1"           # output model name | 模型保存名称
+output_name="maouii_photon_r3_v1"           # output model name | 模型保存名称
 save_model_as="safetensors" # model save ext | 模型保存格式 ckpt, pt, safetensors
 
 # Resume training state | 恢复训练设置
@@ -152,5 +152,4 @@ python -m accelerate.commands.launch ${launchArgs[@]} --num_cpu_threads_per_proc
   --min_bucket_reso=$min_bucket_reso \
   --max_bucket_reso=$max_bucket_reso \
   --keep_tokens=$keep_tokens \
-  --flip-aug \
   --xformers --shuffle_caption ${extArgs[@]}
