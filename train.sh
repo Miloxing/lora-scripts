@@ -17,7 +17,7 @@ network_alpha=64               # network alpha | 常用与 network_dim 相同的
 # Train related params | 训练相关参数
 resolution="768"  # image resolution w,h. 图片分辨率，宽,高。支持非正方形，但必须是 64 倍数。
 batch_size=3          # batch size
-max_train_epoches=18  # max train epoches | 最大训练 epoch
+max_train_epoches=10  # max train epoches | 最大训练 epoch
 save_every_n_epochs=1 # save every n epochs | 每 N 个 epoch 保存一次
 
 train_unet_only=0         # train U-Net only | 仅训练 U-Net，开启这个会牺牲效果大幅减少显存使用。6G显存可以开启
@@ -29,15 +29,15 @@ keep_tokens=1   # keep heading N tokens when shuffling caption tokens | 在随�
 min_snr_gamma=5 # minimum signal-to-noise ratio (SNR) value for gamma-ray | 伽马射线事件的最小信噪比（SNR）值  默认为 0
 
 # Learning rate | 学习率
-lr="1"
-unet_lr="1"
-text_encoder_lr="1"
-lr_scheduler="constant" # "linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup", "adafactor"
+lr="3.6e-4"
+unet_lr="3.6e-4"
+text_encoder_lr="1.8e-4"
+lr_scheduler="cosine_with_restarts" # "linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup", "adafactor"
 lr_warmup_steps=0                   # warmup steps | 学习率预热步数，lr_scheduler 为 constant 或 adafactor 时该值需要设为0。
-lr_restart_cycles=3                 # cosine_with_restarts restart cycles | 余弦退火重启次数，仅在 lr_scheduler 为 cosine_with_restarts 时起效。
+lr_restart_cycles=1                 # cosine_with_restarts restart cycles | 余弦退火重启次数，仅在 lr_scheduler 为 cosine_with_restarts 时起效。
 
 # Output settings | 输出设置
-output_name="maouii_photon_r3_v1"           # output model name | 模型保存名称
+output_name="maouii_photon_r20_v3"           # output model name | 模型保存名称
 save_model_as="safetensors" # model save ext | 模型保存格式 ckpt, pt, safetensors
 
 # Resume training state | 恢复训练设置
@@ -51,7 +51,7 @@ persistent_data_loader_workers=1 # persistent dataloader workers | 容易爆内�
 clip_skip=1                      # clip skip | 玄学 一般用 2
 
 # 优化器设置
-optimizer_type="Prodigy" # Optimizer type | 优化器类型 默认为 AdamW8bit，可选：AdamW AdamW8bit Lion SGDNesterov SGDNesterov8bit DAdaptation AdaFactor Prodigy
+optimizer_type="AdamW8bit" # Optimizer type | 优化器类型 默认为 AdamW8bit，可选：AdamW AdamW8bit Lion SGDNesterov SGDNesterov8bit DAdaptation AdaFactor Prodigy
 
 # LyCORIS 训练设置
 algo="lora"  # LyCORIS network algo | LyCORIS 网络算法 可选 lora、loha、lokr、ia3、dylora。lora即为locon
