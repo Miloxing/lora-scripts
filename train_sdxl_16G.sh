@@ -31,9 +31,9 @@ network_dropout="0" # dropout 是机器学习中防止神经网络过拟合的�
 scale_weight_norms="1.0" #配合 dropout 使用，最大范数约束，推荐1.0
 rank_dropout="0" #lora模型独创，rank级别的dropout，推荐0.1~0.3，未测试过多
 module_dropout="0" #lora模型独创，module级别的dropout(就是分层模块的)，推荐0.1~0.3，未测试过多
-caption_dropout_rate="0.1"
+caption_dropout_rate="0"
 
-train_unet_only=0         # train U-Net only | 仅训练 U-Net，开启这个会牺牲效果大幅减少显存使用。6G显存可以开启
+train_unet_only=1         # train U-Net only | 仅训练 U-Net，开启这个会牺牲效果大幅减少显存使用。6G显存可以开启
 train_text_encoder_only=0 # train Text Encoder only | 仅训练 文本编码器
 
 seed="1026" # reproducable seed | 设置跑测试用的种子，输入一个prompt和这个种子大概率得到训练图。可以用来试触发关键词
@@ -43,7 +43,7 @@ adaptive_noise_scale="0.0375" #adaptive noise scale | 自适应噪声偏移范�
 multires_noise_iterations="0" #多分辨率噪声扩散次数，推荐6-10,0禁用,和noise_offset冲突，只能开一个
 multires_noise_discount="0" #多分辨率噪声缩放倍数，推荐0.1-0.3,上面关掉的话禁用。
 
-shuffle_caption=1 # 随机打乱tokens顺序，默认启用。修改为 0 禁用。
+shuffle_caption=0 # 随机打乱tokens顺序，默认启用。修改为 0 禁用。
 keep_tokens=3  # keep heading N tokens when shuffling caption tokens | 在随机打乱 tokens 时，保留前 N 个不变。
 
 prior_loss_weight=1 #正则化权重，0-1
@@ -79,10 +79,10 @@ conv_block_alphas="1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1" #convalpha
 # Output settings | 输出设置
 output_name="maouii_sdxl_r10_v1"           # output model name | 模型保存名称
 save_model_as="safetensors" # model save ext | 模型保存格式 ckpt, pt, safetensors
-mixed_precision="bf16" # bf16效果更好但是30系以下显卡不支持，默认fp16
-save_precision="bf16" # bf16效果更好但是30系以下显卡不支持，默认fp16
-full_fp16=0 # 半精度全部使用fp16
-full_bf16=1 # 半精度全部使用bf16
+mixed_precision="fp16" # bf16效果更好但是30系以下显卡不支持，默认fp16
+save_precision="fp16" # bf16效果更好但是30系以下显卡不支持，默认fp16
+full_fp16=1 # 半精度全部使用fp16
+full_bf16=0 # 半精度全部使用bf16
 cache_latents=1 #缓存潜变量
 cache_latents_to_disk=1 #开启缓存潜变量保存到磁盘，这样下次训练不用再次缓存转换，速度更快
 no_half_vae=0 #禁止半精度，防止黑图。无法和mixed_precision混合精度共用。
@@ -103,7 +103,7 @@ enable_bucket=1 # arb for diff wh | 分桶
 min_bucket_reso=512              # arb min resolution | arb 最小分辨率
 max_bucket_reso=1536             # arb max resolution | arb 最大分辨率
 persistent_data_loader_workers=1 # persistent dataloader workers | 容易爆内存，保留加载训练集的worker，减少每个 epoch 之间的停顿
-clip_skip=2                      # clip skip | 玄学 一般用 2
+clip_skip=1                      # clip skip | 玄学 一般用 2
 save_state=1 #save
 resume=""
 
