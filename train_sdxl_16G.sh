@@ -79,10 +79,10 @@ conv_block_alphas="1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1" #convalpha
 # Output settings | 输出设置
 output_name="maouii_sdxl_r10_v1"           # output model name | 模型保存名称
 save_model_as="safetensors" # model save ext | 模型保存格式 ckpt, pt, safetensors
-mixed_precision="fp16" # bf16效果更好但是30系以下显卡不支持，默认fp16
-save_precision="fp16" # bf16效果更好但是30系以下显卡不支持，默认fp16
-full_fp16=1 # 半精度全部使用fp16
-full_bf16=0 # 半精度全部使用bf16
+mixed_precision="bf16" # bf16效果更好但是30系以下显卡不支持，默认fp16
+save_precision="bf16" # bf16效果更好但是30系以下显卡不支持，默认fp16
+full_fp16=0 # 半精度全部使用fp16
+full_bf16=1 # 半精度全部使用bf16
 cache_latents=1 #缓存潜变量
 cache_latents_to_disk=1 #开启缓存潜变量保存到磁盘，这样下次训练不用再次缓存转换，速度更快
 no_half_vae=0 #禁止半精度，防止黑图。无法和mixed_precision混合精度共用。
