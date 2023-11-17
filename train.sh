@@ -143,7 +143,7 @@ python -m accelerate.commands.launch ${launchArgs[@]} --num_cpu_threads_per_proc
   --save_every_n_epochs=$save_every_n_epochs \
   --mixed_precision="fp16" \
   --save_precision="fp16" \
-  --seed="420" \
+  --seed="1234" \
   --cache_latents \
   --prior_loss_weight=1 \
   --max_token_length=225 \
