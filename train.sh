@@ -2,7 +2,7 @@
 # LoRA train script by @Akegarasu
 
 # Train data path | 设置训练用模型、图片
-pretrained_model="./sd-models/model.safetensors" # base model path | 底模路径
+pretrained_model="./sd-models/model2.safetensors" # base model path | 底模路径
 is_v2_model=0                             # SD2.0 model | SD2.0模型 2.0模型下 clip_skip 默认无效
 parameterization=0                        # parameterization | 参数化 本参数需要和 V2 参数同步使用 实验性功能
 train_data_dir="./train/aki"              # train dataset path | 训练数据集路径
@@ -12,12 +12,12 @@ reg_data_dir=""                           # directory for regularization images 
 network_module="networks.lora" # 在这里将会设置训练的网络种类，默认为 networks.lora 也就是 LoRA 训练。如果你想训练 LyCORIS（LoCon、LoHa） 等，则修改这个值为 lycoris.kohya
 network_weights=""             # pretrained weights for LoRA network | 若需要从已有的 LoRA 模型上继续训练，请填写 LoRA 模型路径。
 network_dim=128                 # network dim | 常用 4~128，不是越大越好
-network_alpha=64               # network alpha | 常用与 network_dim 相同的值或者采用较小的值，如 network_dim的一半 防止下溢。默认值为 1，使用较小的 alpha 需要提升学习率。
+network_alpha=128               # network alpha | 常用与 network_dim 相同的值或者采用较小的值，如 network_dim的一半 防止下溢。默认值为 1，使用较小的 alpha 需要提升学习率。
 
 # Train related params | 训练相关参数
 resolution="768"  # image resolution w,h. 图片分辨率，宽,高。支持非正方形，但必须是 64 倍数。
 batch_size=3          # batch size
-max_train_epoches=10  # max train epoches | 最大训练 epoch
+max_train_epoches=30  # max train epoches | 最大训练 epoch
 save_every_n_epochs=1 # save every n epochs | 每 N 个 epoch 保存一次
 
 train_unet_only=0         # train U-Net only | 仅训练 U-Net，开启这个会牺牲效果大幅减少显存使用。6G显存可以开启
@@ -29,15 +29,15 @@ keep_tokens=1   # keep heading N tokens when shuffling caption tokens | 在随�
 min_snr_gamma=5 # minimum signal-to-noise ratio (SNR) value for gamma-ray | 伽马射线事件的最小信噪比（SNR）值  默认为 0
 
 # Learning rate | 学习率
-lr="3.6e-4"
-unet_lr="3.6e-4"
-text_encoder_lr="1.8e-4"
-lr_scheduler="cosine_with_restarts" # "linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup", "adafactor"
+lr="1"
+unet_lr="1"
+text_encoder_lr="1"
+lr_scheduler="constant" # "linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup", "adafactor"
 lr_warmup_steps=0                   # warmup steps | 学习率预热步数，lr_scheduler 为 constant 或 adafactor 时该值需要设为0。
 lr_restart_cycles=1                 # cosine_with_restarts restart cycles | 余弦退火重启次数，仅在 lr_scheduler 为 cosine_with_restarts 时起效。
 
 # Output settings | 输出设置
-output_name="maouii_photon_r20_v3"           # output model name | 模型保存名称
+output_name="hll_sd1.5_r5_v1"           # output model name | 模型保存名称
 save_model_as="safetensors" # model save ext | 模型保存格式 ckpt, pt, safetensors
 
 # Resume training state | 恢复训练设置
@@ -51,7 +51,7 @@ persistent_data_loader_workers=1 # persistent dataloader workers | 容易爆内�
 clip_skip=1                      # clip skip | 玄学 一般用 2
 
 # 优化器设置
-optimizer_type="AdamW8bit" # Optimizer type | 优化器类型 默认为 AdamW8bit，可选：AdamW AdamW8bit Lion SGDNesterov SGDNesterov8bit DAdaptation AdaFactor Prodigy
+optimizer_type="Prodigy" # Optimizer type | 优化器类型 默认为 AdamW8bit，可选：AdamW AdamW8bit Lion SGDNesterov SGDNesterov8bit DAdaptation AdaFactor Prodigy
 
 # LyCORIS 训练设置
 algo="lora"  # LyCORIS network algo | LyCORIS 网络算法 可选 lora、loha、lokr、ia3、dylora。lora即为locon
@@ -124,7 +124,7 @@ python -m accelerate.commands.launch ${launchArgs[@]} --num_cpu_threads_per_proc
   --enable_bucket \
   --pretrained_model_name_or_path=$pretrained_model \
   --train_data_dir=$train_data_dir \
-  --output_dir="/content/drive/Shareddrives/milo01_h/sd/sd-webui/extensions/sd-webui-additional-networks/models/lora" \
+  --output_dir="/content/drive/MyDrive/output" \
   --logging_dir="./logs" \
   --log_prefix=$output_name \
   --resolution=$resolution \
